@@ -1,8 +1,14 @@
+import { Ionicons } from '@expo/vector-icons';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Communities from './screens/dashboard/Communities';
 import Consult from './screens/dashboard/Consult';
 import Dashboard from './screens/dashboard/Dashboard';
+import HealthRecords from './screens/dashboard/HealthRecords';
+import Orders from './screens/dashboard/Orders';
+import Profile from './screens/dashboard/Profile';
+import SOS from './screens/dashboard/SOS';
 import LoginScreen from './screens/LoginScreen';
 import Reg1 from './screens/register/Reg1';
 import Reg2 from './screens/register/Reg2';
@@ -54,30 +60,42 @@ function DrawerNavigator() {
       />
       <Drawer.Screen 
         name="HealthRecords" 
-        component={Dashboard}
+        component={HealthRecords}
         options={{
           drawerLabel: 'Health Records',
         }}
       />
       <Drawer.Screen 
         name="Communities" 
-        component={Dashboard}
+        component={Communities}
         options={{
           drawerLabel: 'Communities',
         }}
       />
       <Drawer.Screen 
         name="Profile" 
-        component={Dashboard}
+        component={Profile}
         options={{
           drawerLabel: 'Profile',
         }}
       />
       <Drawer.Screen 
         name="Orders" 
-        component={Dashboard}
+        component={Orders}
         options={{
           drawerLabel: 'Orders',
+        }}
+      />
+      <Drawer.Screen 
+        name="SOS" 
+        component={SOS}
+        options={{
+          drawerLabel: 'Emergency SOS',
+          drawerLabelStyle: { color: '#DC2626', fontWeight: '600' },
+          drawerIcon: ({ size }) => (
+            <Ionicons name="alert-circle" size={size} color="#DC2626" />
+          ),
+          drawerActiveTintColor: '#DC2626',
         }}
       />
     </Drawer.Navigator>

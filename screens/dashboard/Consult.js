@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import {
     Dimensions,
     FlatList,
+    Image,
     KeyboardAvoidingView,
     Platform,
     ScrollView,
@@ -163,7 +164,16 @@ export default function Consult() {
           <Text style={styles.headerTitle}>Consult</Text>
         </View>
 
-        <View style={{ width: 28 }} />
+        <View style={styles.headerRight}>
+          <TouchableOpacity style={styles.notificationIcon}>
+            <Ionicons name="notifications-outline" size={24} color={COLORS.primary} />
+            <View style={styles.notificationBadge} />
+          </TouchableOpacity>
+          <Image
+            source={{ uri: 'https://via.placeholder.com/40' }}
+            style={styles.profileImage}
+          />
+        </View>
       </View>
 
       <View style={styles.headerSubtext}>
@@ -358,6 +368,29 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#1A1A1A',
     fontFamily: FONTS.Poppins,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  notificationIcon: {
+    position: 'relative',
+  },
+  notificationBadge: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#FF6B6B',
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#E0E0E0',
   },
   headerSubtext: {
     paddingHorizontal: 16,

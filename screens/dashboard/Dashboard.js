@@ -2,13 +2,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import {
-    Dimensions,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import NairaLogo from '../../components/NairaLogo';
@@ -173,7 +173,7 @@ export default function Dashboard() {
       </ScrollView>
 
       {/* Sticky SOS Button */}
-      <TouchableOpacity style={styles.sosButton}>
+      <TouchableOpacity style={styles.sosButton} onPress={() => navigation.navigate('SOS')}>
         <Ionicons name="alert-circle" size={32} color="white" />
       </TouchableOpacity>
     </SafeAreaView>
@@ -387,8 +387,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 12,
     padding: 16,
-    marginRight: 12,
-    width: width - 80,
+    marginBottom: 12,
+    alignSelf: 'center',
+    width: '100%',
     elevation: 2,
     shadowColor: '#000',
     shadowOpacity: 0.08,

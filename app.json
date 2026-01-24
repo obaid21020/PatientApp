@@ -49,8 +49,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "e3780421-ef14-4348-a1a2-c41e5156aa9e"
+        "projectId": "5291109d-75a0-46b1-8bf4-9b2a767552d9"
       }
-    }
+    },
+    "owner": "moeez319"
   }
 }
