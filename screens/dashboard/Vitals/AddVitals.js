@@ -2,15 +2,18 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import {
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import VitalCard from '../../../components/VitalCard';
 import { COLORS, FONTS } from '../../../themes/regTheme';
+
+const { width } = Dimensions.get('window');
 
 export default function AddVitals() {
   const navigation = useNavigation();
@@ -134,29 +137,35 @@ export default function AddVitals() {
       >
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Common Vitals</Text>
-          {predefinedVitals.map((vital) => (
-            <VitalCard
-              key={vital.id}
-              vital={vital}
-              color={vital.color}
-              onAdd={() => handleAddVital(vital)}
-              onHistory={() => handleViewHistory(vital)}
-            />
-          ))}
+          <View style={styles.vitalsGrid}>
+            {predefinedVitals.map((vital) => (
+              <View key={vital.id} style={styles.vitalCardWrapper}>
+                <VitalCard
+                  vital={vital}
+                  color={vital.color}
+                  onAdd={() => handleAddVital(vital)}
+                  onHistory={() => handleViewHistory(vital)}
+                />
+              </View>
+            ))}
+          </View>
         </View>
 
         {customVitals.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Your Custom Vitals</Text>
-            {customVitals.map((vital) => (
-              <VitalCard
-                key={vital.id}
-                vital={vital}
-                color={vital.color}
-                onAdd={() => handleAddVital(vital)}
-                onHistory={() => handleViewHistory(vital)}
-              />
-            ))}
+            <View style={styles.vitalsGrid}>
+              {customVitals.map((vital) => (
+                <View key={vital.id} style={styles.vitalCardWrapper}>
+                  <VitalCard
+                    vital={vital}
+                    color={vital.color}
+                    onAdd={() => handleAddVital(vital)}
+                    onHistory={() => handleViewHistory(vital)}
+                  />
+                </View>
+              ))}
+            </View>
           </View>
         )}
 
@@ -210,6 +219,16 @@ const styles = StyleSheet.create({
     color: '#1A1A1A',
     fontFamily: FONTS.Poppins,
     marginBottom: 16,
+  },
+  vitalsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    justifyContent: 'space-between',
+  },
+  vitalCardWrapper: {
+    width: (width - 42) / 2, // 2 columns with gap consideration
+    marginBottom: 10,
   },
   addCustomButton: {
     flexDirection: 'row',

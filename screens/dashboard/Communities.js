@@ -19,88 +19,127 @@ const { width } = Dimensions.get('window');
 
 export default function Communities() {
   const navigation = useNavigation();
-  const [joinedGroups, setJoinedGroups] = useState(['diabetes', 'hypertension']);
+  const [joinedGroups, setJoinedGroups] = useState(['health-edu-basic', 'womens-health']);
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterType, setFilterType] = useState('all'); // 'all', 'free', 'paid'
+  const [filterType, setFilterType] = useState('all'); // 'all', 'free', 'premium'
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showFilterModal, setShowFilterModal] = useState(false);
 
   const allGroups = [
     {
-      id: 'diabetes',
-      name: 'Diabetes Support Group',
-      category: 'Chronic Conditions',
-      members: 1250,
-      posts: 756,
-      price: 'Free',
-      isPaid: false,
-      description: 'Connect with others managing diabetes. Share tips, experiences, and support.',
-      icon: 'checkmark-circle-outline',
-      color: '#4CAF50',
-      badge: 'Active',
-    },
-    {
-      id: 'hypertension',
-      name: 'Hypertension Management',
-      category: 'Chronic Conditions',
-      members: 890,
-      posts: 423,
-      price: '₦2,500/month',
-      isPaid: true,
-      description: 'Learn about managing high blood pressure and lifestyle changes.',
-      icon: 'heart-outline',
-      color: '#E91E63',
-      badge: 'Popular',
-    },
-    {
-      id: 'pregnancy',
-      name: 'Expecting Mothers',
-      category: 'Maternal Health',
-      members: 2100,
-      posts: 1234,
-      price: 'Free',
-      isPaid: false,
-      description: 'A safe space for expecting and new mothers to share experiences.',
-      icon: 'people-outline',
-      color: '#9C27B0',
-      badge: 'Trending',
-    },
-    {
-      id: 'mental',
-      name: 'Mental Wellness Circle',
-      category: 'Mental Health',
-      members: 1650,
-      posts: 892,
-      price: '₦1,800/month',
-      isPaid: true,
-      description: 'Support for mental health and emotional well-being.',
-      icon: 'bulb-outline',
-      color: '#FF9800',
-      badge: null,
-    },
-    {
-      id: 'cancer',
-      name: 'Cancer Survivors Network',
-      category: 'Chronic Conditions',
-      members: 750,
-      posts: 345,
-      price: 'Free',
-      isPaid: false,
-      description: 'Support network for cancer patients and survivors.',
-      icon: 'shield-checkmark-outline',
-      color: '#2196F3',
-      badge: null,
-    },
-    {
-      id: 'nutrition',
-      name: 'Healthy Living & Nutrition',
-      category: 'Lifestyle',
+      id: 'health-edu-basic',
+      name: 'Health Education 101',
+      category: 'Health Education',
       members: 3200,
       posts: 1876,
       price: 'Free',
       isPaid: false,
-      description: 'Tips on healthy eating, meal planning, and nutrition.',
-      icon: 'book-outline',
+      description: 'Learn fundamentals of health literacy, wellness, and disease prevention strategies.',
+      icon: 'school-outline',
+      color: '#4CAF50',
+      badge: 'Popular',
+    },
+    {
+      id: 'health-edu-pro',
+      name: 'Expert Medical Webinars',
+      category: 'Health Education',
+      members: 890,
+      posts: 234,
+      price: '₦3,000/month',
+      isPaid: true,
+      description: 'Exclusive live sessions with healthcare professionals and premium health courses.',
+      icon: 'videocam-outline',
+      color: '#FF5722',
+      badge: 'Premium',
+    },
+    {
+      id: 'womens-health',
+      name: "Women's Wellness Circle",
+      category: "Women's Health",
+      members: 2100,
+      posts: 1234,
+      price: 'Free',
+      isPaid: false,
+      description: 'A supportive space for women to discuss health issues, wellness, and self-care.',
+      icon: 'female-outline',
+      color: '#E91E63',
+      badge: 'Trending',
+    },
+    {
+      id: 'maternal-care',
+      name: 'Maternal Health Plus',
+      category: "Women's Health",
+      members: 650,
+      posts: 289,
+      price: '₦2,500/month',
+      isPaid: true,
+      description: 'Comprehensive support for expecting mothers with expert guidance and resources.',
+      icon: 'heart-circle-outline',
+      color: '#9C27B0',
+      badge: 'Premium',
+    },
+    {
+      id: 'chronic-support',
+      name: 'Chronic Care Support',
+      category: 'Chronic Care & Long-Term Conditions',
+      members: 1250,
+      posts: 756,
+      price: 'Free',
+      isPaid: false,
+      description: 'Connect with others managing diabetes, hypertension, and long-term conditions.',
+      icon: 'medical-outline',
+      color: '#2196F3',
+      badge: 'Active',
+    },
+    {
+      id: 'chronic-pro',
+      name: 'Advanced Disease Management',
+      category: 'Chronic Care & Long-Term Conditions',
+      members: 420,
+      posts: 156,
+      price: '₦4,000/month',
+      isPaid: true,
+      description: 'Personalized care plans and specialist support for chronic condition management.',
+      icon: 'fitness-outline',
+      color: '#3F51B5',
+      badge: 'Premium',
+    },
+    {
+      id: 'mental-wellness',
+      name: 'Mental Wellness Circle',
+      category: 'Mental & Emotional Wellbeing',
+      members: 1650,
+      posts: 892,
+      price: 'Free',
+      isPaid: false,
+      description: 'Peer support for stress, anxiety, and emotional wellbeing challenges.',
+      icon: 'happy-outline',
+      color: '#FF9800',
+      badge: null,
+    },
+    {
+      id: 'therapy-pro',
+      name: 'Therapy & Counseling Hub',
+      category: 'Mental & Emotional Wellbeing',
+      members: 380,
+      posts: 142,
+      price: '₦3,500/month',
+      isPaid: true,
+      description: 'Professional therapy resources, guided sessions, and mental health tools.',
+      icon: 'chatbubbles-outline',
+      color: '#795548',
+      badge: 'Premium',
+    },
+    {
+      id: 'healthy-living',
+      name: 'Healthy Living & Prevention',
+      category: 'Healthy Living & Prevention',
+      members: 2800,
+      posts: 1543,
+      price: 'Free',
+      isPaid: false,
+      description: 'Nutrition tips, fitness advice, and preventive health strategies for daily wellness.',
+      icon: 'nutrition-outline',
       color: '#00BCD4',
       badge: 'Popular',
     },
@@ -151,7 +190,7 @@ export default function Communities() {
     setJoinedGroups(joinedGroups.filter((id) => id !== groupId));
   };
 
-  // Filter groups based on search and filter type
+  // Filter groups based on search and filter type (Free or Premium only)
   const filteredGroups = allGroups.filter((group) => {
     const matchesSearch =
       group.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -159,7 +198,7 @@ export default function Communities() {
     const matchesFilter =
       filterType === 'all' ||
       (filterType === 'free' && !group.isPaid) ||
-      (filterType === 'paid' && group.isPaid);
+      (filterType === 'premium' && group.isPaid);
     return matchesSearch && matchesFilter;
   });
 
@@ -206,7 +245,7 @@ export default function Communities() {
               <Text style={[
                 styles.priceText,
                 { color: group.isPaid ? '#E65100' : '#2E7D32' }
-              ]}>{group.price}</Text>
+              ]}>{group.isPaid ? 'Premium' : 'Free'}</Text>
             </View>
           </View>
           <View style={styles.categoryBadge}>
@@ -228,9 +267,23 @@ export default function Communities() {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.discoverButton}>
-        <Text style={styles.discoverButtonText}>Discover</Text>
-      </TouchableOpacity>
+      {joinedGroups.includes(group.id) ? (
+        <TouchableOpacity 
+          style={[styles.discoverButton, styles.leaveButton]} 
+          onPress={() => handleLeaveGroup(group.id)}
+        >
+          <Text style={[styles.discoverButtonText, styles.leaveButtonText]}>Leave</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity 
+          style={styles.discoverButton}
+          onPress={() => handleJoinGroup(group.id)}
+        >
+          <Text style={styles.discoverButtonText}>
+            {group.isPaid ? 'Subscribe' : 'Join'}
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 
@@ -362,27 +415,27 @@ export default function Communities() {
             </TouchableOpacity>
           </View>
 
-          {/* Filter Pills */}
+          {/* Filter Pills - Only Free and Premium */}
           <ScrollView 
             horizontal 
             showsHorizontalScrollIndicator={false}
             style={styles.filterPillsScroll}
             contentContainerStyle={styles.filterPillsContent}
           >
-            {['all', 'free', 'paid'].map((filter) => (
+            {['all', 'free', 'premium'].map((filter) => (
               <TouchableOpacity
                 key={filter}
                 style={[
                   styles.filterPill,
                   filterType === filter && styles.filterPillActive
                 ]}
-                onPress={() => setFilterType(filter)}
+                onPress={() => setFilterType(filter === filterType ? 'all' : filter)}
               >
                 <Text style={[
                   styles.filterPillText,
                   filterType === filter && styles.filterPillTextActive
                 ]}>
-                  {filter === 'all' ? 'All' : filter === 'free' ? 'Free' : 'Paid'}
+                  {filter === 'all' ? 'All' : filter === 'free' ? 'Free' : 'Premium'}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -476,6 +529,18 @@ export default function Communities() {
                 </TouchableOpacity>
               </View>
 
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Type</Text>
+                <View style={styles.typeContainer}>
+                  <TouchableOpacity style={[styles.typeButton, styles.typeButtonActive]}>
+                    <Text style={styles.typeButtonText}>Free</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.typeButton}>
+                    <Text style={styles.typeButtonTextInactive}>Premium</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
               <View style={styles.approvalNote}>
                 <Ionicons name="information-circle" size={18} color="#1976D2" />
                 <View style={styles.approvalNoteContent}>
@@ -519,7 +584,7 @@ export default function Communities() {
         >
           <View style={styles.filterModalContent}>
             <Text style={styles.filterModalTitle}>Filter Communities</Text>
-            {['all', 'free', 'paid'].map((filter) => (
+            {['all', 'free', 'premium'].map((filter) => (
               <TouchableOpacity
                 key={filter}
                 style={styles.filterOption}
@@ -529,7 +594,7 @@ export default function Communities() {
                 }}
               >
                 <Text style={styles.filterOptionText}>
-                  {filter === 'all' ? 'All Communities' : filter === 'free' ? 'Free Communities' : 'Paid Communities'}
+                  {filter === 'all' ? 'All Communities' : filter === 'free' ? 'Free Communities' : 'Premium Communities'}
                 </Text>
                 {filterType === filter && (
                   <Ionicons name="checkmark" size={20} color={COLORS.primary} />
@@ -896,6 +961,13 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     fontFamily: 'Poppins',
   },
+  leaveButton: {
+    borderColor: '#E0E0E0',
+    backgroundColor: '#F5F5F5',
+  },
+  leaveButtonText: {
+    color: '#757575',
+  },
   roomCount: {
     fontSize: 12,
     color: '#9E9E9E',
@@ -1107,6 +1179,36 @@ const styles = StyleSheet.create({
   selectPlaceholder: {
     fontSize: 14,
     color: '#9E9E9E',
+    fontFamily: 'Poppins',
+  },
+  typeContainer: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  typeButton: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    alignItems: 'center',
+    backgroundColor: '#FAFAFA',
+  },
+  typeButtonActive: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
+  },
+  typeButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#FFFFFF',
+    fontFamily: 'Poppins',
+  },
+  typeButtonTextInactive: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#757575',
     fontFamily: 'Poppins',
   },
   approvalNote: {

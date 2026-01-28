@@ -135,23 +135,19 @@ export default function HealthRecords() {
   const referrals = [
     {
       id: 1,
-      specialist: 'Dr. Emily Wilson',
       specialty: 'Cardiology',
       hospital: 'Heart Care Center',
       date: '2024-12-15',
       reason: 'Echocardiogram assessment',
       status: 'Pending',
-      referredBy: 'Dr. Sarah Johnson',
     },
     {
       id: 2,
-      specialist: 'Dr. James Martinez',
       specialty: 'Orthopedic',
       hospital: 'Bone & Joint Clinic',
       date: '2024-11-20',
       reason: 'Knee pain evaluation',
       status: 'Completed',
-      referredBy: 'Dr. Michael Brown',
     },
   ];
 
@@ -280,6 +276,17 @@ export default function HealthRecords() {
               <Ionicons name="download-outline" size={16} color={COLORS.primary} />
               <Text style={styles.outlineButtonText}>Download Result</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={[styles.outlineButton, { borderColor: COLORS.ndpa }]}>
+              <Ionicons name="cart-outline" size={16} color={COLORS.ndpa} />
+              <Text style={[styles.outlineButtonText, { color: COLORS.ndpa }]}>Order Test</Text>
+            </TouchableOpacity>
+           
+          </View>
+          <View style={[styles.actionButtons, {marginTop: 0}]}>
+            <TouchableOpacity style={[styles.outlineButton, { borderColor: COLORS.chromeyellow }]}>
+              <Ionicons name="download-sharp" size={16} color={COLORS.chromeyellow} />
+              <Text style={[styles.outlineButtonText, { color: COLORS.chromeyellow }]}>Download Test Form</Text>
+            </TouchableOpacity>
           </View>
         </View>
       ))}
@@ -298,7 +305,7 @@ export default function HealthRecords() {
       {referrals.map((referral) => (
         <View key={referral.id} style={styles.recordCard}>
           <View style={styles.recordHeader}>
-            <Text style={[styles.recordTitle, { flex: 1 }]}>{referral.specialist}</Text>
+            <Text style={[styles.recordTitle, { flex: 1 }]}>{referral.hospital}</Text>
             <View style={[
               styles.statusBadge,
               { backgroundColor: referral.status === 'Completed' ? '#E8F5E9' : '#FFF8E1' }
@@ -309,13 +316,10 @@ export default function HealthRecords() {
               ]}>{referral.status}</Text>
             </View>
           </View>
-          <Text style={styles.specialtyText}>{referral.specialty} • {referral.hospital}</Text>
+          <Text style={styles.specialtyText}>{referral.specialty}</Text>
           <Text style={styles.recordDate}>Date: {referral.date}</Text>
           <Text style={styles.recordSubtitle}>
             <Text style={styles.labelText}>Reason: </Text>{referral.reason}
-          </Text>
-          <Text style={styles.referredByText}>
-            <Text style={styles.labelText}>Referred by: </Text>{referral.referredBy}
           </Text>
           {referral.status === 'Completed' && (
             <View style={styles.actionButtons}>
@@ -424,25 +428,33 @@ export default function HealthRecords() {
             </View>
           </View>
           <View style={styles.womensHealthGrid}>
-            {/* Menstrual Cycle */}
+            {/* Menstrual Cycle - Updated Design */}
             <View style={[styles.womensHealthCard, styles.menstrualCard]}>
-              <View style={styles.womensCardHeader}>
-                <Ionicons name="calendar-outline" size={20} color="#EC407A" />
-                <Text style={styles.womensCardTitle}>Menstrual Cycle</Text>
+              <View style={styles.cycleCardContent}>
+                <View style={styles.cycleIconContainer}>
+                  <Ionicons name="water" size={28} color="#E91E63" />
+                </View>
+                
+                <View style={styles.cycleInfoContainer}>
+              
+                  
+                  <Text style={styles.cycleDayText}>Day 95 — Follicular 🌸</Text>
+                  
+                  <Text style={styles.cycleTipText}>
+                    Tip: Sleep, hydrate, and gentle exercise support this phase.
+                  </Text>
+                  
+                  <View style={styles.phasePill}>
+                    <Text style={styles.phasePillText}>Follicular</Text>
+                  </View>
+                </View>
               </View>
-              <View style={styles.womensCardContent}>
-                <Text style={styles.womensInfoText}>
-                  <Text style={styles.womensLabelText}>Last Period: </Text>Dec 1, 2024
-                </Text>
-                <Text style={styles.womensInfoText}>
-                  <Text style={styles.womensLabelText}>Next Expected: </Text>Dec 29, 2024
-                </Text>
-                <Text style={styles.womensInfoText}>
-                  <Text style={styles.womensLabelText}>Cycle Length: </Text>28 days
-                </Text>
-              </View>
-              <TouchableOpacity style={styles.womensActionBtn} onPress={() => navigation.navigate('LogPeriod') }>
-                <Text style={styles.womensActionText}>Log Period</Text>
+              
+              <TouchableOpacity 
+                style={styles.cycleActionBtn} 
+                onPress={() => navigation.navigate('LogPeriod')}
+              >
+                <Text style={styles.cycleActionText}>Log Period</Text>
               </TouchableOpacity>
             </View>
 
@@ -717,16 +729,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins',
   },
   womensHealthGrid: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     gap: 12,
   },
   womensHealthCard: {
     flex: 1,
-    borderRadius: 10,
-    padding: 12,
+    borderRadius: 12,
+    padding: 14,
   },
   menstrualCard: {
-    backgroundColor: '#FCE4EC',
+    backgroundColor: '#FFF5F7',
     borderWidth: 1,
     borderColor: '#F8BBD9',
   },
@@ -735,6 +747,74 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E1BEE7',
   },
+  // New Menstrual Cycle Card Styles
+  cycleCardContent: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 16,
+  },
+  cycleIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#FCE4EC',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  cycleInfoContainer: {
+    flex: 1,
+  },
+  cycleCardTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#1A1A1A',
+    fontFamily: 'Poppins',
+    marginBottom: 6,
+  },
+  cycleDayText: {
+    fontSize: 19,
+    fontWeight: '700',
+    color: '#1A1A1A',
+    fontFamily: 'Poppins',
+    marginBottom: 10,
+  },
+  cycleTipText: {
+    fontSize: 13,
+    color: '#2E7D32',
+    fontFamily: 'Poppins',
+    lineHeight: 18,
+    marginBottom: 14,
+    fontWeight: '500',
+  },
+  phasePill: {
+    backgroundColor: '#4CAF50',
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 20,
+    alignSelf: 'flex-start',
+  },
+  phasePillText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '700',
+    fontFamily: 'Poppins',
+  },
+  cycleActionBtn: {
+    backgroundColor: 'transparent',
+    borderWidth: 1.5,
+    borderColor: '#E91E63',
+    borderRadius: 8,
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  cycleActionText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#E91E63',
+    fontFamily: 'Poppins',
+  },
+  // Pregnancy Card Styles (kept for reference)
   womensCardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -742,7 +822,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   womensCardTitle: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '600',
     color: '#C2185B',
     fontFamily: 'Poppins',
@@ -819,7 +899,7 @@ const styles = StyleSheet.create({
   },
   tabTitle: {
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: '900',
     color: '#1A1A1A',
     fontFamily: 'Poppins',
   },
@@ -868,6 +948,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     marginBottom: 6,
+    fontWeight: '500',
   },
   recordTitleRow: {
     flexDirection: 'row',
@@ -877,7 +958,7 @@ const styles = StyleSheet.create({
   },
   recordTitle: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '700',
     color: '#1A1A1A',
     fontFamily: 'Poppins',
   },
@@ -983,7 +1064,8 @@ const styles = StyleSheet.create({
   },
   specialtyText: {
     fontSize: 12,
-    color: '#757575',
+    fontWeight: '500',
+    color: '#424242',
     fontFamily: 'Poppins',
     marginBottom: 4,
   },

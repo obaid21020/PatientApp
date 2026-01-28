@@ -10,6 +10,7 @@ export const COLORS = {
   placeholder: '#888888',
   border:      '#CCCCCC',
   white:       '#FFFFFF',
+  chromeyellow:      '#a8762a',
 };
 
 export const FONTS = {
