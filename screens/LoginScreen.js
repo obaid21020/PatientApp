@@ -1,8 +1,10 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
 import { FONTS } from '../themes/regTheme';
 
 export default function LoginScreen() {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
@@ -12,6 +14,9 @@ export default function LoginScreen() {
           resizeMode="contain"
         />
         <Text style={styles.message}>This feature hasn't been built yet</Text>
+        <TouchableOpacity style={styles.guestButton} onPress={() => navigation.navigate('Main', { screen: 'Home' })}>
+          <Text style={styles.guestButtonText}>Guest Login</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -39,5 +44,19 @@ const styles = StyleSheet.create({
     color: '#1A1A1A',
     fontFamily: FONTS.Poppins,
     textAlign: 'center',
+    marginBottom: 24,
+  },
+  guestButton: {
+    backgroundColor: '#1A1A1A',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  guestButtonText: {
+    color: '#FAFAFA',
+    fontSize: 16,
+    fontWeight: '600',
+    fontFamily: FONTS.Poppins,
   },
 });

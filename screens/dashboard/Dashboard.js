@@ -77,14 +77,16 @@ export default function Dashboard() {
         </View>
 
         <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.notificationIcon}>
+          <TouchableOpacity style={styles.notificationIcon} onPress={() => navigation.navigate('Notifications')}>
             <Ionicons name="notifications-outline" size={24} color={COLORS.primary} />
             <View style={styles.notificationBadge} />
           </TouchableOpacity>
-          <Image
+          <TouchableOpacity onPress={() => navigation.navigate('QuickProfile')}>
+            <Image
             source={{ uri: 'https://via.placeholder.com/40' }}
             style={styles.profileImage}
           />
+          </TouchableOpacity>
         </View>
       </View>
 

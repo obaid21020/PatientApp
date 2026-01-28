@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import {
-    KeyboardAvoidingView, Platform, ScrollView,
-    StyleSheet,
-    Text, TouchableOpacity,
-    View
+  KeyboardAvoidingView, Platform, ScrollView,
+  StyleSheet,
+  Text, TouchableOpacity,
+  View
 } from 'react-native';
 import NairaLogo from '../../../components/NairaLogo';
 import ProgressHeader from '../../../components/ProgressHeader';
@@ -13,12 +13,7 @@ import { COLORS, FONTS, STYLES } from '../../../themes/regTheme';
 const GENERAL_HEALTH_OPTIONS = [
   'Fever or malaria-like',
   'Cough / cold / sore throat',
-  'Stomach pain / diarrhea',
-  'Headache / migraine',
-  'Body pain / back or joints',
-  'Skin or rashes',
-  'Eye or ear problems',
-  'Stress / anxiety',
+  'Stomach pain / diarrhea'
 ];
 
 export default function SkipGeneral({ navigation }) {

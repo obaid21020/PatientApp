@@ -60,6 +60,7 @@ export default function Reg3({ navigation }) {
               label="Alternative language (optional)"
               selected={altLanguage}
               setSelected={setAltLanguage}
+              options={altLanguageOptions}
             />
 
             {/* ---- Communication Channels (Multi-select) ---- */}

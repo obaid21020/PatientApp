@@ -64,7 +64,7 @@ export default function Reg1_Phone({ navigation }) {
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={100}>
-        <ScrollView contentContainerStyle={STYLES.container}>
+        <ScrollView contentContainerStyle={STYLES.container} keyboardShouldPersistTaps="handled">
 
           {/* ----  centered content  ---- */}
 
@@ -109,6 +109,7 @@ export default function Reg1_Phone({ navigation }) {
                     onChangeText={(value) => handleOtpChange(value, index)}
                     onKeyPress={(e) => handleOtpKeyPress(e, index)}
                     keyboardType="phone-pad"
+                    keyboardVerticalOffset={180}
                     maxLength={1}
                     textAlign="center"
                   />

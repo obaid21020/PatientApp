@@ -2,15 +2,16 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import {
-    Dimensions,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import VitalCard from '../../components/VitalCard';
 import { COLORS } from '../../themes/regTheme';
 
 const { width } = Dimensions.get('window');
@@ -184,29 +185,7 @@ export default function HealthRecords() {
     }
   };
 
-  const renderVitalCard = (vital, index) => {
-    const trendIcon = getTrendIcon(vital.trend);
-    const statusColor = getStatusColor(vital.status);
-
-    return (
-      <View key={index} style={styles.vitalCard}>
-        <View style={[styles.vitalIconContainer, { backgroundColor: `${vital.color}20` }]}>
-          <Ionicons name={vital.icon} size={22} color={vital.color} />
-        </View>
-        <Text style={styles.vitalName}>{vital.name}</Text>
-        <View style={styles.vitalValueRow}>
-          <Text style={styles.vitalValue}>{vital.value}</Text>
-          <Text style={styles.vitalUnit}>{vital.unit}</Text>
-        </View>
-        <View style={styles.vitalStatusRow}>
-          <View style={[styles.statusBadge, { backgroundColor: statusColor.bg }]}>
-            <Text style={[styles.statusText, { color: statusColor.text }]}>{vital.status}</Text>
-          </View>
-          <Ionicons name={trendIcon.name} size={16} color={trendIcon.color} />
-        </View>
-      </View>
-    );
-  };
+  // Remove renderVitalCard, use VitalCard directly
 
   const renderConsultHistory = () => (
     <View style={styles.tabContent}>
@@ -386,7 +365,7 @@ export default function HealthRecords() {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Health Records</Text>
         <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.notificationIcon}>
+          <TouchableOpacity style={styles.notificationIcon} onPress={() => navigation.navigate('Notifications')}>
             <Ionicons name="notifications-outline" size={24} color={COLORS.primary} />
             <View style={styles.notificationBadge} />
           </TouchableOpacity>
@@ -424,16 +403,27 @@ export default function HealthRecords() {
             </View>
           </View>
           <View style={styles.vitalsGrid}>
-            {vitals.map((vital, index) => renderVitalCard(vital, index))}
+            {vitals.map((vital) => (
+              <VitalCard
+                key={vital.name}
+                vital={{
+                  ...vital,
+                  lastValue: vital.value,
+                  lastRecorded: vital.lastRecorded,
+                }}
+                color={vital.color}
+                onAdd={() => navigation.navigate('RecordVital', { vital })}
+                onHistory={() => navigation.navigate('VitalHistory', { vital })}
+              />
+            ))}
           </View>
           <View style={styles.vitalsActions}>
-            <TouchableOpacity style={[styles.actionBtn, styles.outlineActionBtn]}>
+            <TouchableOpacity 
+              style={[styles.actionBtn, styles.outlineActionBtn]}
+              onPress={() => navigation.navigate('AddVitals')}
+            >
               <Ionicons name="add-outline" size={18} color={COLORS.primary} />
               <Text style={styles.outlineActionText}>Add Vitals</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.actionBtn, styles.outlineActionBtn]}>
-              <Ionicons name="time-outline" size={18} color={COLORS.primary} />
-              <Text style={styles.outlineActionText}>View History</Text>
             </TouchableOpacity>
           </View>
         </View>
