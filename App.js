@@ -14,6 +14,7 @@ import Dashboard from './screens/dashboard/Dashboard';
 import HealthRecords from './screens/dashboard/HealthRecords';
 import Notifications from './screens/dashboard/Notifications.js';
 import QuickProfile from './screens/dashboard/QuickProfile.js';
+import SOS from './screens/dashboard/SOS.js';
 import LoginScreen from './screens/LoginScreen';
 import Reg1 from './screens/register/Reg1';
 import InitialPicks from './screens/register/Reg2/InitialPicks';
@@ -50,7 +51,7 @@ export default function App() {
         <Stack.Screen name="Reg5" component={Reg5} />
         <Stack.Screen name="Notifications" component={Notifications} />
         <Stack.Screen name="QuickProfile" component={QuickProfile} />
-        
+        <Stack.Screen name="SOS" component={SOS} /> 
         {/* Profile Stack Screens */}
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="Subscriptions" component={Subscriptions} />

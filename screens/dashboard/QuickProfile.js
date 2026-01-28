@@ -89,7 +89,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16, paddingVertical: 12, backgroundColor: 'white',
     borderBottomWidth: 1, borderBottomColor: '#F0F0F0',
   },
-  headerTitle: { fontSize: 20, fontWeight: '700', color: COLORS.textDark, fontFamily: FONTS.Poppins },
+  headerTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: COLORS.primary,
+    fontFamily: 'Poppins',
+    marginBottom: 4,
+  },
   content: { flex: 1, paddingHorizontal: 16 },
   profileCard: {
     flexDirection: 'row', alignItems: 'center', backgroundColor: 'white',

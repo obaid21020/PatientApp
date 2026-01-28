@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import NairaLogo from '../../components/NairaLogo';
 import { COLORS, FONTS } from '../../themes/regTheme';
 
 const { width } = Dimensions.get('window');
@@ -67,11 +68,15 @@ export default function Dashboard() {
     <SafeAreaView style={styles.container}>
       {/* Sticky Header */}
       <View style={styles.header}>
-        <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.notificationIcon} onPress={() => navigation.navigate('Notifications')}>
+        <TouchableOpacity style={styles.notificationIcon} onPress={() => navigation.navigate('Notifications')}>
             <Ionicons name="notifications-outline" size={24} color={COLORS.primary} />
             <View style={styles.notificationBadge} />
           </TouchableOpacity>
+        <View style={styles.headerCenter}>
+          <NairaLogo size={25} />
+        </View>
+        <View style={styles.headerRight}>
+          
           <TouchableOpacity onPress={() => navigation.navigate('QuickProfile')}>
             <Image
             source={{ uri: 'https://via.placeholder.com/40' }}

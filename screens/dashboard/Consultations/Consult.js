@@ -1,12 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import {
-    FlatList,
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, FONTS } from '../../../themes/regTheme';
@@ -100,13 +100,23 @@ export default function Consult() {
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          <Ionicons name="menu" size={28} color={COLORS.primary} />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Consultations</Text>
+        {/* Left: Notification Icon */}
         <TouchableOpacity style={styles.headerIcon} onPress={() => navigation.navigate('Notifications')}>
           <Ionicons name="notifications-outline" size={24} color={COLORS.primary} />
         </TouchableOpacity>
+        {/* Center: Title */}
+        <View style={styles.headerCenter}>
+          <Text style={styles.headerTitle}>Consultations</Text>
+        </View>
+        {/* Right: Profile Image */}
+        <View style={styles.headerRight}>
+          <TouchableOpacity onPress={() => navigation.navigate('QuickProfile')}>
+            <Image
+              source={{ uri: 'https://via.placeholder.com/40' }}
+              style={styles.profileImage}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Search Bar */}
@@ -152,10 +162,16 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   headerTitle: {
-    fontSize: 20,
+   fontSize: 16,
     fontWeight: '700',
-    color: '#1A1A1A',
-    fontFamily: FONTS.Poppins,
+    color: COLORS.primary,
+    fontFamily: 'Poppins',
+    marginBottom: 4,
+  },
+  headerCenter: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   headerIcon: {
     padding: 4,
@@ -261,6 +277,19 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: 'white',
     fontFamily: FONTS.Poppins,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    minWidth: 40,
+    justifyContent: 'flex-end',
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#E0E0E0',
   },
   fab: {
     position: 'absolute',

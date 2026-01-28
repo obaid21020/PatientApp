@@ -272,15 +272,13 @@ export default function Communities() {
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          <Ionicons name="menu" size={28} color={COLORS.primary} />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Communities</Text>
-        <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.notificationIcon} onPress={() => navigation.navigate('Notifications')}>
+        <TouchableOpacity style={styles.notificationIcon} onPress={() => navigation.navigate('Notifications')}>
             <Ionicons name="notifications-outline" size={24} color={COLORS.primary} />
             <View style={styles.notificationBadge} />
           </TouchableOpacity>
+        <Text style={styles.headerTitle}>Communities</Text>
+        <View style={styles.headerRight}>
+          
           <Image
             source={{ uri: 'https://via.placeholder.com/40' }}
             style={styles.profileImage}
