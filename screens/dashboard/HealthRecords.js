@@ -162,28 +162,6 @@ export default function HealthRecords() {
     { id: 'referrals', label: 'Referrals', icon: 'document-text-outline' },
   ];
 
-  const getTrendIcon = (trend) => {
-    switch (trend) {
-      case 'up':
-        return { name: 'trending-up', color: '#4CAF50' };
-      case 'down':
-        return { name: 'trending-down', color: '#F44336' };
-      default:
-        return { name: 'remove-outline', color: '#9E9E9E' };
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'normal':
-      case 'positive':
-        return { bg: '#E8F5E9', text: '#2E7D32' };
-      case 'elevated':
-        return { bg: '#FFF3E0', text: '#E65100' };
-      default:
-        return { bg: '#E0E0E0', text: '#616161' };
-    }
-  };
 
   // Remove renderVitalCard, use VitalCard directly
 
@@ -229,10 +207,21 @@ export default function HealthRecords() {
           <Text style={styles.addText}>New</Text>
         </TouchableOpacity>
       </View>
+      <Text style={{ color: '#666', fontSize: 13, marginBottom: 12, fontFamily: 'Poppins' }}>
+        Tap a prescription card to request a refill or manage preferences.
+      </Text>
       {prescriptions.map((prescription) => (
-        <View key={prescription.id} style={styles.recordCard}>
+        <TouchableOpacity
+          key={prescription.id}
+          style={styles.recordCard}
+          activeOpacity={0.85}
+          onPress={() => navigation.navigate('Refill', { prescription: { ...prescription, prescribedBy: prescription.prescribedBy || 'your doctor' } })}
+        >
           <View style={styles.recordHeader}>
-            <Text style={styles.recordTitle}>{prescription.medication}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <Ionicons name="medkit-outline" size={22} color={COLORS.primary} style={{ marginRight: 2 }} />
+              <Text style={styles.recordTitle}>{prescription.medication}</Text>
+            </View>
             <View style={[
               styles.statusBadge,
               { backgroundColor: prescription.status === 'Active' ? '#E8F5E9' : '#F5F5F5' }
@@ -251,17 +240,17 @@ export default function HealthRecords() {
           </View>
           {prescription.status === 'Active' && (
             <View style={styles.actionButtons}>
-              <TouchableOpacity style={styles.outlineButton}>
+              <TouchableOpacity style={styles.outlineButton} onPress={() => {}}>
                 <Ionicons name="alarm-outline" size={16} color={COLORS.primary} />
                 <Text style={styles.outlineButtonText}>Set Reminder</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.primaryButton}>
+              <TouchableOpacity style={styles.primaryButton} onPress={() => {}}>
                 <Ionicons name="cart-outline" size={16} color="#FFFFFF" />
                 <Text style={styles.primaryButtonText}>Order Now</Text>
               </TouchableOpacity>
             </View>
           )}
-        </View>
+        </TouchableOpacity>
       ))}
     </View>
   );
@@ -452,7 +441,7 @@ export default function HealthRecords() {
                   <Text style={styles.womensLabelText}>Cycle Length: </Text>28 days
                 </Text>
               </View>
-              <TouchableOpacity style={styles.womensActionBtn}>
+              <TouchableOpacity style={styles.womensActionBtn} onPress={() => navigation.navigate('LogPeriod') }>
                 <Text style={styles.womensActionText}>Log Period</Text>
               </TouchableOpacity>
             </View>

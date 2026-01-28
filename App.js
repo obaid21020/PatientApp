@@ -32,7 +32,9 @@ import Privacy from './screens/dashboard/Profile/Privacy.js';
 import Security from './screens/dashboard/Profile/Security.js';
 import Subscriptions from './screens/dashboard/Profile/Subscriptions.js';
 import Wallet from './screens/dashboard/Profile/Wallet.js';
-
+//import HealthAddons records screens
+import LogPeriod from './screens/HealthAddons/LogPeriod.js';
+import Refill from './screens/HealthAddons/Refill.js';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -66,6 +68,8 @@ export default function App() {
         <Stack.Screen name="RecordVital" component={RecordVital} />
         <Stack.Screen name="CustomVital" component={CustomVital} />
         <Stack.Screen name="VitalHistory" component={VitalHistory} />
+        <Stack.Screen name="Refill" component={Refill} />
+        <Stack.Screen  name="LogPeriod" component={LogPeriod} options={{ headerShown: false }} />
         {/* Keep old Profile for drawer navigation compatibility, or redirect to QuickProfile */}
         <Stack.Screen name="Profile" component={QuickProfile} />
         <Stack.Screen name="ChatConversation" component={ChatConversation} />
