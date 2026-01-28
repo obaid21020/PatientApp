@@ -327,7 +327,7 @@ const styles = StyleSheet.create({
   conditionPill: {
     borderWidth: 1,
     borderColor: COLORS.primary,
-    borderRadius: 20,
+    borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 8,
     backgroundColor: COLORS.white,
