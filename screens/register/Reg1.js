@@ -1,14 +1,14 @@
 import { Ionicons } from '@expo/vector-icons'; // lock icon
 import { useRef, useState } from 'react';
 import {
-    KeyboardAvoidingView, Platform, ScrollView,
-    StyleSheet,
-    Text, TextInput, TouchableOpacity,
-    View
+  KeyboardAvoidingView, Platform, ScrollView,
+  StyleSheet,
+  Text, TextInput, TouchableOpacity,
+  View
 } from 'react-native';
 import NairaLogo from '../../components/NairaLogo';
 import ProgressHeader from '../../components/ProgressHeader';
-import { COLORS, FONTS, STYLES } from '../../themes/regTheme';
+import { COLORS, FONTS, SCREEN_STYLES, STYLES } from '../../themes/regTheme';
 
 export default function Reg1_Phone({ navigation }) {
   const [phone, setPhone] = useState('');
@@ -50,7 +50,7 @@ export default function Reg1_Phone({ navigation }) {
   const isFormComplete = isValidPhone() && isOtpComplete;
 
   return (
-    <View style={styles.screen}>
+    <View style={SCREEN_STYLES.screen}>
       <ProgressHeader current={1} total={6} />
       <NairaLogo />
       
@@ -62,7 +62,8 @@ export default function Reg1_Phone({ navigation }) {
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={100}>
         <ScrollView contentContainerStyle={STYLES.container}>
 
           {/* ----  centered content  ---- */}
@@ -145,7 +146,7 @@ export default function Reg1_Phone({ navigation }) {
         <TouchableOpacity
           style={[styles.nextBtn, !isFormComplete && styles.nextBtnDisabled]}
           disabled={!isFormComplete}
-          onPress={() => navigation.navigate('Reg2')}>
+          onPress={() => navigation.navigate('InitialPicks')}>
           <Text style={styles.nextBtnText}>Next</Text>
         </TouchableOpacity>
       </View>

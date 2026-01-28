@@ -1,10 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRef, useState } from 'react';
 import {
-    KeyboardAvoidingView, Platform, ScrollView,
-    StyleSheet,
-    Text, TextInput, TouchableOpacity,
-    View
+  KeyboardAvoidingView, Platform, ScrollView,
+  StyleSheet,
+  Text, TextInput, TouchableOpacity,
+  View
 } from 'react-native';
 import NairaLogo from '../../components/NairaLogo';
 import ProgressHeader from '../../components/ProgressHeader';
@@ -55,7 +55,8 @@ export default function Reg5({ navigation }) {
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={100}>
         <ScrollView 
           contentContainerStyle={{ flexGrow: 1 }}
           scrollEnabled={true}>

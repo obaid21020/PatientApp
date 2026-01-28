@@ -2,15 +2,15 @@ import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState } from 'react';
 import {
-    KeyboardAvoidingView, Platform, ScrollView,
-    StyleSheet,
-    Text, TextInput, TouchableOpacity,
-    View
+  KeyboardAvoidingView, Platform, ScrollView,
+  StyleSheet,
+  Text, TextInput, TouchableOpacity,
+  View
 } from 'react-native';
 import LangChips from '../../components/LangChips';
 import NairaLogo from '../../components/NairaLogo';
 import ProgressHeader from '../../components/ProgressHeader';
-import { COLORS, FONTS, STYLES } from '../../themes/regTheme';
+import { COLORS, FONTS, LAYOUT_STYLES, SCREEN_STYLES, STYLES } from '../../themes/regTheme';
 
 const CONDITIONS = [
   'Hypertension',
@@ -87,7 +87,7 @@ export default function Reg4({ navigation }) {
 
 
   return (
-    <View style={styles.screen}>
+    <View style={SCREEN_STYLES.screen}>
       <ProgressHeader current={4} total={6} />
       <NairaLogo />
 
@@ -99,14 +99,15 @@ export default function Reg4({ navigation }) {
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={100}>
         <ScrollView 
           contentContainerStyle={{ flexGrow: 1 }}
           scrollEnabled={true}>
           <View style={STYLES.container}>
 
             {/* ---- First Name ---- */}
-            <View style={styles.fieldGroup}>
+            <View style={LAYOUT_STYLES.fieldGroup}>
               <Text style={STYLES.label}>First Name (Legal Name) <Text style={{color: COLORS.primary}}>*</Text></Text>
               <TextInput
                 style={STYLES.input}

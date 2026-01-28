@@ -1,83 +1,27 @@
 import { useState } from 'react';
 import {
-    KeyboardAvoidingView, Platform, ScrollView,
-    StyleSheet,
-    Text, TouchableOpacity,
-    View
+  KeyboardAvoidingView, Platform, ScrollView,
+  StyleSheet,
+  Text, TouchableOpacity,
+  View
 } from 'react-native';
-import NairaLogo from '../../components/NairaLogo';
-import ProgressHeader from '../../components/ProgressHeader';
-import { COLORS, FONTS, STYLES } from '../../themes/regTheme';
+import NairaLogo from '../../../components/NairaLogo';
+import ProgressHeader from '../../../components/ProgressHeader';
+import { COLORS, FONTS, STYLES } from '../../../themes/regTheme';
 
-const CATEGORIES = {
-  'Common Symptoms': [
-    'Fever or malaria-like',
-    'Cough / cold / sore throat',
-    'Stomach pain / diarrhea',
-    'Headache / migraine',
-    'Body pain / back or joints',
-    'Skin or rashes',
-    'Eye or ear problems',
-    'Period pain / irregular cycle',
-  ],
-  "Women's Health": [
-    'Vaginal discharge / UTI',
-    'Family planning',
-    'Pregnancy (I\'m pregnant)',
-    'Trying to conceive',
-  ],
-  'Pregnancy & Newborn': [
-    'Pregnancy check-in',
-    'Baby care (0-1 yr)',
-    'Immunization reminders',
-  ],
-  'Child & Teen Health': [
-    'Child fever / cough',
-    'Rashes / skin (child)',
-    'Growth & nutrition',
-  ],
-  "Men's Health": [
-    'Urinary / prostate symptoms',
-    'Erectile Dysfunction',
-  ],
-  'Chronic Conditions': [
-    'Blood pressure (Hypertension)',
-    'Diabetes (Type 2)',
-    'Asthma',
-    'Cholesterol / heart risk',
-  ],
-  'Mental Health & Sleep': [
-    'Stress / anxiety',
-    'Low mood / sadness',
-    'Sleep problems',
-  ],
-  'Sexual Health': [
-    'Possible STI exposure',
-    'Discharge / itching',
-    'PrEP / PEP info',
-  ],
-  'Medicines & Refills': [
-    'Refill my medicine',
-    'Side-effects / how to take',
-    'Check if medicine is genuine',
-  ],
-  'Labs & Screening': [
-    'Order a lab test',
-    'View my results',
-    'Health screening',
-  ],
-  'Lifestyle & Prevention': [
-    'Nutrition / weight',
-    'Exercise plan',
-    'Quit smoking / reduce alcohol',
-  ],
-  'Elder Care': [
-    'Care for a parent',
-    'Falls / memory concerns',
-  ],
-};
+// Quick initial picks - subset of popular options
+const INITIAL_PICKS = [
+  'Fever or malaria-like',
+  'Cough / cold / sore throat',
+  'Stomach pain / diarrhea',
+  'Headache / migraine',
+  'Body pain / back or joints',
+  'Skin or rashes',
+  'Stress / anxiety',
+  'Period pain / irregular cycle',
+];
 
-export default function Reg2({ navigation }) {
+export default function InitialPicks({ navigation }) {
   const [selected, setSelected] = useState([]);
 
   const toggleCategory = (category) => {
@@ -103,43 +47,48 @@ export default function Reg2({ navigation }) {
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={100}>
         <ScrollView 
           contentContainerStyle={{ flexGrow: 1 }}
           scrollEnabled={true}
           nestedScrollEnabled={true}>
           <View style={STYLES.container}>
           
-          {/* ---- Categories ---- */}
-          {Object.entries(CATEGORIES).map(([section, items]) => (
-            <View key={section} style={styles.section}>
-              <Text style={styles.sectionTitle}>{section}</Text>
-              <View style={styles.categoryGrid}>
-                {items.map((item) => {
-                  const isSelected = selected.includes(item);
-                  return (
-                    <TouchableOpacity
-                      key={item}
-                      style={[
-                        styles.categoryPill,
-                        isSelected && styles.categoryPillSelected
-                      ]}
-                      onPress={() => toggleCategory(item)}>
-                      <Text style={[
-                        styles.categoryText,
-                        isSelected && styles.categoryTextSelected
-                      ]}>
-                        {item}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
+          {/* ---- Quick Pick Options ---- */}
+          <View style={styles.section}>
+            <View style={styles.categoryGrid}>
+              {INITIAL_PICKS.map((item) => {
+                const isSelected = selected.includes(item);
+                return (
+                  <TouchableOpacity
+                    key={item}
+                    style={[
+                      styles.categoryPill,
+                      isSelected && styles.categoryPillSelected
+                    ]}
+                    onPress={() => toggleCategory(item)}>
+                    <Text style={[
+                      styles.categoryText,
+                      isSelected && styles.categoryTextSelected
+                    ]}>
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
-          ))}
+          </View>
+
+          {/* Show All Link */}
+          <TouchableOpacity onPress={() => navigation.navigate('ShowAll', { selected })}>
+            <Text style={styles.showAllLink}>
+              Show all categories
+            </Text>
+          </TouchableOpacity>
 
           {/* Footer note */}
-          <TouchableOpacity onPress={() => navigation.navigate('Reg3')}>
+          <TouchableOpacity onPress={() => navigation.navigate('SkipGeneral')}>
             <Text style={styles.footerNote}>
                 Skip - Default to "General Care"
             </Text>
@@ -177,13 +126,6 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 24,
   },
-  sectionTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: COLORS.textDark,
-    marginBottom: 12,
-    fontFamily: 'Poppins',
-  },
   categoryGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -192,7 +134,7 @@ const styles = StyleSheet.create({
   categoryPill: {
     borderWidth: 2,
     borderColor: COLORS.primary,
-    borderRadius: 20,
+    borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 8,
     backgroundColor: COLORS.white,
@@ -210,6 +152,15 @@ const styles = StyleSheet.create({
   },
   categoryTextSelected: {
     color: COLORS.white,
+  },
+  showAllLink: {
+    textAlign: 'center',
+    color: COLORS.primary,
+    fontSize: 14,
+    fontWeight: '600',
+    marginVertical: 24,
+    fontFamily: 'Poppins',
+    textDecorationLine: 'underline',
   },
   footerNote: {
     textAlign: 'center',

@@ -11,7 +11,9 @@ import Profile from './screens/dashboard/Profile';
 import SOS from './screens/dashboard/SOS';
 import LoginScreen from './screens/LoginScreen';
 import Reg1 from './screens/register/Reg1';
-import Reg2 from './screens/register/Reg2';
+import InitialPicks from './screens/register/Reg2/InitialPicks';
+import ShowAll from './screens/register/Reg2/ShowAll';
+import SkipGeneral from './screens/register/Reg2/SkipGeneral';
 import Reg3 from './screens/register/Reg3';
 import Reg4 from './screens/register/Reg4';
 import Reg5 from './screens/register/Reg5';
@@ -27,7 +29,9 @@ export default function App() {
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Login"   component={LoginScreen} />
         <Stack.Screen name="Reg1"   component={Reg1} />
-        <Stack.Screen name="Reg2"   component={Reg2} />
+        <Stack.Screen name="InitialPicks"   component={InitialPicks} />
+        <Stack.Screen name="ShowAll"   component={ShowAll} />
+        <Stack.Screen name="SkipGeneral"   component={SkipGeneral} />
         <Stack.Screen name="Reg3"   component={Reg3} />
         <Stack.Screen name="Reg4"   component={Reg4} />
         <Stack.Screen name="Reg5"   component={Reg5} />

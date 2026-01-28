@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import {
-    KeyboardAvoidingView, Platform, ScrollView,
-    StyleSheet,
-    Text, TouchableOpacity,
-    View
+  KeyboardAvoidingView, Platform, ScrollView,
+  StyleSheet,
+  Text, TouchableOpacity,
+  View
 } from 'react-native';
 import LangChips from '../../components/LangChips';
 import NairaLogo from '../../components/NairaLogo';

@@ -26,6 +26,16 @@ export const ICON = {
   color: COLORS.placeholder,
 };
 
+/* full screen container style */
+export const SCREEN_STYLES = StyleSheet.create({
+  screen: { flex: 1, backgroundColor: COLORS.bg },
+});
+
+/* layout component styles */
+export const LAYOUT_STYLES = StyleSheet.create({
+  fieldGroup: { marginBottom: 16 },
+});
+
 /* reusable component styles */
 export const STYLES = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg, justifyContent: 'flex-start', alignItems: 'stretch', paddingHorizontal: 24, paddingTop: 40 },
