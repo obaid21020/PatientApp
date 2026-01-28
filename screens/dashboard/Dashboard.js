@@ -11,7 +11,6 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import NairaLogo from '../../components/NairaLogo';
 import { COLORS, FONTS } from '../../themes/regTheme';
 
 const { width } = Dimensions.get('window');
@@ -68,14 +67,6 @@ export default function Dashboard() {
     <SafeAreaView style={styles.container}>
       {/* Sticky Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          <Ionicons name="menu" size={28} color={COLORS.primary} />
-        </TouchableOpacity>
-
-        <View style={styles.headerCenter}>
-          <NairaLogo size={25} />
-        </View>
-
         <View style={styles.headerRight}>
           <TouchableOpacity style={styles.notificationIcon} onPress={() => navigation.navigate('Notifications')}>
             <Ionicons name="notifications-outline" size={24} color={COLORS.primary} />
@@ -175,7 +166,7 @@ export default function Dashboard() {
       </ScrollView>
 
       {/* Sticky SOS Button */}
-      <TouchableOpacity style={styles.sosButton} onPress={() => navigation.navigate('SOS')}>
+      <TouchableOpacity style={styles.sosButton} onPress={() => navigation.getParent()?.navigate('SOS')}>
         <Ionicons name="alert-circle" size={32} color="white" />
       </TouchableOpacity>
     </SafeAreaView>
@@ -440,7 +431,7 @@ const styles = StyleSheet.create({
   },
   sosButton: {
     position: 'absolute',
-    bottom: 24,
+    bottom: 100, // move above the bottom tab navigator
     right: 24,
     width: 64,
     height: 64,

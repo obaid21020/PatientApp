@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AddVitals from './screens/dashboard/Vitals/AddVitals.js';
@@ -13,9 +13,7 @@ import Consult from './screens/dashboard/Consultations/Consult.js';
 import Dashboard from './screens/dashboard/Dashboard';
 import HealthRecords from './screens/dashboard/HealthRecords';
 import Notifications from './screens/dashboard/Notifications.js';
-import Orders from './screens/dashboard/Orders';
 import QuickProfile from './screens/dashboard/QuickProfile.js';
-import SOS from './screens/dashboard/SOS';
 import LoginScreen from './screens/LoginScreen';
 import Reg1 from './screens/register/Reg1';
 import InitialPicks from './screens/register/Reg2/InitialPicks';
@@ -35,7 +33,7 @@ import Subscriptions from './screens/dashboard/Profile/Subscriptions.js';
 import Wallet from './screens/dashboard/Profile/Wallet.js';
 
 const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
@@ -70,31 +68,52 @@ export default function App() {
         {/* Keep old Profile for drawer navigation compatibility, or redirect to QuickProfile */}
         <Stack.Screen name="Profile" component={QuickProfile} />
         <Stack.Screen name="ChatConversation" component={ChatConversation} />
-        <Stack.Screen name="Main" component={DrawerNavigator} options={{headerShown: false}} />
+        <Stack.Screen name="Main" component={BottomTabNavigator} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-function DrawerNavigator() {
+function BottomTabNavigator() {
   return (
-    <Drawer.Navigator screenOptions={{ headerShown: false, drawerType: 'slide' }}>
-      <Drawer.Screen name="Home" component={Dashboard} options={{ drawerLabel: 'Home' }} />
-      <Drawer.Screen name="Consult" component={Consult} options={{ drawerLabel: 'Consult' }} />
-      <Drawer.Screen name="HealthRecords" component={HealthRecords} options={{ drawerLabel: 'Health Records' }} />
-      <Drawer.Screen name="Communities" component={Communities} options={{ drawerLabel: 'Communities' }} />
-      <Drawer.Screen name="ProfileDrawer" component={QuickProfile} options={{ drawerLabel: 'Profile' }} />
-      <Drawer.Screen name="Orders" component={Orders} options={{ drawerLabel: 'Orders' }} />
-      <Drawer.Screen 
-        name="SOS" 
-        component={SOS}
-        options={{
-          drawerLabel: 'Emergency SOS',
-          drawerLabelStyle: { color: '#DC2626', fontWeight: '600' },
-          drawerIcon: ({ size }) => (<Ionicons name="alert-circle" size={size} color="#DC2626" />),
-          drawerActiveTintColor: '#DC2626',
-        }}
-      />
-    </Drawer.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          position: 'absolute',
+          backgroundColor: '#fff',
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          height: 70,
+          shadowColor: '#000',
+          shadowOpacity: 0.05,
+          shadowOffset: { width: 0, height: -2 },
+          shadowRadius: 10,
+          elevation: 10,
+        },
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === 'Home') {
+            iconName = 'home-outline';
+          } else if (route.name === 'Consult') {
+            iconName = 'chatbubble-ellipses-outline';
+          } else if (route.name === 'HealthRecords') {
+            iconName = 'folder-outline';
+          } else if (route.name === 'Communities') {
+            iconName = 'people-outline';
+          } else if (route.name === 'ProfileTab') {
+            iconName = 'person-outline';
+          }
+          return <Ionicons name={iconName} size={28} color={focused ? '#25636E' : '#B0BEC5'} />;
+        },
+      })}
+    >
+      <Tab.Screen name="Home" component={Dashboard} />
+      <Tab.Screen name="HealthRecords" component={HealthRecords} />
+      <Tab.Screen name="Consult" component={Consult} />
+      <Tab.Screen name="Communities" component={Communities} />
+      <Tab.Screen name="ProfileTab" component={QuickProfile} />
+    </Tab.Navigator>
   );
 }

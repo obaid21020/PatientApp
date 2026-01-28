@@ -6,6 +6,7 @@ import { useState } from 'react';
 import {
   Alert,
   Image,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -20,27 +21,28 @@ export default function EditProfile() {
   const navigation = useNavigation();
   const [profileImage, setProfileImage] = useState('https://via.placeholder.com/120');
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [dob, setDob] = useState(new Date('1990-01-15'));
   const [profile, setProfile] = useState({
     fullName: 'John Doe',
     email: 'john.doe@example.com',
     phone: '+234 800 123 4567',
-    dob: '1990-01-15',
     address: '123 Main Street, Lagos, Nigeria',
     emergencyContact: '+234 800 765 4321',
   });
-    const dobString = dob ? dob.toLocaleDateString('en-GB') : '';
+  const dobString = dob ? dob.toLocaleDateString('en-GB') : '';
 
   const handleProfileChange = (field, value) => {
     setProfile((prev) => ({ ...prev, [field]: value }));
   };
-   const handleDateChange = (event, selectedDate) => {
-      if (Platform.OS === 'android') {
-        setShowDatePicker(false);
-      }
-      if (selectedDate) {
-        setDob(selectedDate);
-      }
-    };
+
+  const handleDateChange = (event, selectedDate) => {
+    if (Platform.OS === 'android') {
+      setShowDatePicker(false);
+    }
+    if (selectedDate) {
+      setDob(selectedDate);
+    }
+  };
     
   const handleChangeProfileImage = () => {
     Alert.alert(
@@ -113,27 +115,26 @@ export default function EditProfile() {
           </View>
 
           <View style={{ marginBottom: 16 }}>
-              <Text style={STYLES.label}>Date of Birth <Text style={{color: COLORS.primary}}>*</Text></Text>
-              <TouchableOpacity
-                style={STYLES.inputWrap}
-                onPress={() => setShowDatePicker(true)}>
-                <Ionicons name="calendar" size={20} color={COLORS.placeholder} />
-                <Text style={[STYLES.input, { marginLeft: 8 }]}>
-                  {dobString || 'Select date'}
-                </Text>
-              </TouchableOpacity>
-
-              {showDatePicker && (
-                <DateTimePicker
-                  value={dob || new Date()}
-                  mode="date"
-                  display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                  onChange={handleDateChange}
-                  maximumDate={new Date()}
-                  onTouchCancel={() => setShowDatePicker(false)}
-                />
-              )}
-            </View>
+            <Text style={styles.inputLabel}>Date of Birth <Text style={{color: COLORS.primary}}>*</Text></Text>
+            <TouchableOpacity
+              style={[styles.textInput, { flexDirection: 'row', alignItems: 'center' }]}
+              onPress={() => setShowDatePicker(true)}>
+              <Ionicons name="calendar" size={20} color={COLORS.placeholder} />
+              <Text style={{ marginLeft: 8, color: '#1A1A1A', fontFamily: 'Poppins', fontSize: 14 }}>
+                {dobString || 'Select date'}
+              </Text>
+            </TouchableOpacity>
+            {showDatePicker && (
+              <DateTimePicker
+                value={dob || new Date()}
+                mode="date"
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                onChange={handleDateChange}
+                maximumDate={new Date()}
+                onTouchCancel={() => setShowDatePicker(false)}
+              />
+            )}
+          </View>
 
           <View style={styles.inputGroup}>
             <Text style={styles.inputLabel}>Address</Text>
