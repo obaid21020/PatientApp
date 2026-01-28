@@ -1,3 +1,5 @@
+'use client';
+
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState } from 'react';
@@ -7,7 +9,6 @@ import {
   Text, TextInput, TouchableOpacity,
   View
 } from 'react-native';
-import LangChips from '../../components/LangChips';
 import NairaLogo from '../../components/NairaLogo';
 import ProgressHeader from '../../components/ProgressHeader';
 import { COLORS, FONTS, LAYOUT_STYLES, SCREEN_STYLES, STYLES } from '../../themes/regTheme';
@@ -22,41 +23,48 @@ const CONDITIONS = [
   'None',
 ];
 
-const BLOOD_GROUPS = ['Select Blood Group', 'O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
+const BLOOD_TYPES = ['O', 'A', 'B', 'AB'];
+const RH_FACTORS = ['Rh +', 'Rh -'];
 const GENOTYPES = ['Unknown', 'AA', 'AS', 'SS', 'AC', 'SC', 'CC'];
+const LIFESTYLE_OPTIONS = ['Yes', 'No', 'Occasionally'];
 
 export default function Reg4({ navigation }) {
   const [firstName, setFirstName] = useState('');
   const [dob, setDob] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [sex, setSex] = useState('');
-  const [conditions, setConditions] = useState('None');
-  const [bloodGroup, setBloodGroup] = useState('Select Blood Group');
+  const [conditions, setConditions] = useState([]);
   const [genotype, setGenotype] = useState('Unknown');
   const [allergies, setAllergies] = useState('');
   const [medications, setMedications] = useState('');
+  const [smokes, setSmokes] = useState('No');
+  const [drinks, setDrinks] = useState('No');
   const [agreedToTelemedicine, setAgreedToTelemedicine] = useState(false);
+  const [bloodType, setBloodType] = useState('');
+  const [rhFactor, setRhFactor] = useState('');
 
   const toggleCondition = (condition) => {
-    setConditions((prev) =>
-      prev.includes(condition)
+    setConditions((prev) => {
+      if (condition === 'None' || condition === 'Not Sure') {
+        return prev.includes(condition) ? [] : [condition];
+      }
+      if (prev.includes('None') || prev.includes('Not Sure')) {
+        return prev;
+      }
+      return prev.includes(condition)
         ? prev.filter((c) => c !== condition)
-        : [...prev, condition]
-    );
+        : [...prev, condition];
+    });
   };
 
-  // Calculate age from date of birth
   const calculateAge = (date) => {
     if (!date) return 0;
-    
     const today = new Date();
     let age = today.getFullYear() - date.getFullYear();
-    
     const monthDiff = today.getMonth() - date.getMonth();
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < date.getDate())) {
       age--;
     }
-    
     return age;
   };
 
@@ -64,7 +72,6 @@ export default function Reg4({ navigation }) {
     if (Platform.OS === 'android') {
       setShowDatePicker(false);
     }
-    
     if (selectedDate) {
       setDob(selectedDate);
     }
@@ -72,26 +79,84 @@ export default function Reg4({ navigation }) {
 
   const age = calculateAge(dob);
   const isAgeValid = dob && age >= 16;
-  const dobString = dob ? dob.toLocaleDateString('en-GB') : ''; // Format: dd/mm/yyyy
+  const dobString = dob ? dob.toLocaleDateString('en-GB') : '';
 
-  // Check if all required fields are filled
   const isFormComplete = 
     firstName.trim() !== '' &&
     dob !== '' &&
     isAgeValid &&
     sex !== '' &&
     conditions.length > 0 &&
-    bloodGroup !== 'Select Blood Group' &&
+    bloodType !== '' &&
+    rhFactor !== '' &&
     genotype !== '' &&
+    smokes !== '' &&
+    drinks !== '' &&
     agreedToTelemedicine;
 
+  // Generic pill renderer using CONDITION styling
+  const renderPills = (label, options, selected, setSelected, config = {}) => {
+    const { required = false, multi = false, columns = null, icon = false } = config;
+    
+    // Calculate width based on columns (2 or 3), null for natural flow
+    const getWidth = () => {
+      if (columns === 2) return { width: '48%' };
+      if (columns === 3) return { width: '31%' };
+      return {};
+    };
+
+    return (
+      <View style={{ marginBottom: 20 }}>
+        <Text style={STYLES.label}>
+          {label} {required && <Text style={{color: COLORS.primary}}>*</Text>}
+        </Text>
+        <View style={styles.pillGrid}>
+          {options.map((option) => {
+            const isSelected = multi ? selected.includes(option) : selected === option;
+            const widthStyle = getWidth();
+            
+            return (
+              <TouchableOpacity
+                key={option}
+                style={[
+                  styles.pill,
+                  isSelected && styles.pillSelected,
+                  widthStyle
+                ]}
+                onPress={() => {
+                  if (multi) {
+                    toggleCondition(option);
+                  } else {
+                    setSelected(option);
+                  }
+                }}>
+                {icon && (
+                  <Ionicons 
+                    name="water" 
+                    size={16} 
+                    color={isSelected ? COLORS.white : COLORS.primary}
+                  />
+                )}
+                <Text style={[
+                  styles.pillText,
+                  isSelected && styles.pillTextSelected,
+                  icon && { marginTop: 2 }
+                ]}>
+                  {option}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </View>
+    );
+  };
 
   return (
     <View style={SCREEN_STYLES.screen}>
       <ProgressHeader current={4} total={6} />
       <NairaLogo />
 
-      {/* ---- title & subtitle at top ---- */}
       <Text style={FONTS.title}>About you</Text>
       <Text style={[FONTS.sub, {paddingBottom: 16}]}>
         Help us provide safe, personalized care
@@ -119,7 +184,7 @@ export default function Reg4({ navigation }) {
             </View>
 
             {/* ---- Date of Birth ---- */}
-            <View style={styles.fieldGroup}>
+            <View style={{ marginBottom: 16 }}>
               <Text style={STYLES.label}>Date of Birth <Text style={{color: COLORS.primary}}>*</Text></Text>
               <TouchableOpacity
                 style={STYLES.inputWrap}
@@ -153,42 +218,21 @@ export default function Reg4({ navigation }) {
               )}
             </View>
 
-            {/* ---- Sex at Birth (Radio) ---- */}
-            <View style={styles.section}>
-              <Text style={STYLES.label}>Sex at Birth <Text style={{color: COLORS.primary}}>*</Text></Text>
-              <View style={styles.radioGroup}>
-                {['Female', 'Male'].map((option) => (
-                  <TouchableOpacity 
-                    key={option}
-                    style={styles.radioRow}
-                    onPress={() => setSex(option)}>
-                    <View style={[styles.radio, sex === option && styles.radioSelected]}>
-                      {sex === option && <View style={styles.radioDot} />}
-                    </View>
-                    <Text style={styles.radioLabel}>{option}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </View>
+            {/* ---- Sex (2 per row) ---- */}
+            {renderPills('Sex at Birth', ['Female', 'Male'], sex, setSex, { required: true, columns: 2 })}
 
-            {/* ---- Conditions (Multi-select pills) ---- */}
-            <View style={styles.section}>
+            {/* ---- Conditions (Original multi-select style preserved) ---- */}
+            <View style={{ marginBottom: 20 }}>
               <Text style={STYLES.label}>Any conditions we should factor in?</Text>
-              <View style={styles.conditionGrid}>
+              <View style={styles.pillGrid}>
                 {CONDITIONS.map((condition) => {
                   const isSelected = conditions.includes(condition);
                   return (
                     <TouchableOpacity
                       key={condition}
-                      style={[
-                        styles.conditionPill,
-                        isSelected && styles.conditionPillSelected
-                      ]}
+                      style={[styles.pill, isSelected && styles.pillSelected]}
                       onPress={() => toggleCondition(condition)}>
-                      <Text style={[
-                        styles.conditionText,
-                        isSelected && styles.conditionTextSelected
-                      ]}>
+                      <Text style={[styles.pillText, isSelected && styles.pillTextSelected]}>
                         {condition}
                       </Text>
                     </TouchableOpacity>
@@ -197,24 +241,21 @@ export default function Reg4({ navigation }) {
               </View>
             </View>
 
-            {/* ---- Blood Group (Chips) ---- */}
-            <LangChips 
-              label="Blood Group"
-              selected={bloodGroup}
-              setSelected={setBloodGroup}
-              options={BLOOD_GROUPS}
-            />
+            {/* ---- Blood Type (2 per row, with icon) ---- */}
+            {renderPills('Blood Type', BLOOD_TYPES, bloodType, setBloodType, { required: true, columns: 2, icon: true })}
 
-            {/* ---- Genotype (Chips) ---- */}
-            <LangChips 
-              label="Genotype"
-              selected={genotype}
-              setSelected={setGenotype}
-              options={GENOTYPES}
-            />
+            {/* ---- Rh Factor (2 per row) ---- */}
+            {renderPills('Rh Factor', RH_FACTORS, rhFactor, setRhFactor, { required: true, columns: 2 })}
+
+            {/* ---- Genotype (3 per row) ---- */}
+            {renderPills('Genotype', GENOTYPES, genotype, setGenotype, { columns: 3 })}
+
+            {/* ---- Lifestyle Questions (3 per row) ---- */}
+            {renderPills('Do you smoke?', LIFESTYLE_OPTIONS, smokes, setSmokes, { required: true, columns: 3 })}
+            {renderPills('Do you drink?', LIFESTYLE_OPTIONS, drinks, setDrinks, { required: true, columns: 3 })}
 
             {/* ---- Allergies (Optional) ---- */}
-            <View style={styles.fieldGroup}>
+            <View style={LAYOUT_STYLES.fieldGroup}>
               <Text style={STYLES.label}>Allergies (Optional)</Text>
               <TextInput
                 style={[STYLES.input, { minHeight: 60 }]}
@@ -227,7 +268,7 @@ export default function Reg4({ navigation }) {
             </View>
 
             {/* ---- Current Medications (Optional) ---- */}
-            <View style={styles.fieldGroup}>
+            <View style={LAYOUT_STYLES.fieldGroup}>
               <Text style={STYLES.label}>Current Medications (Optional)</Text>
               <TextInput
                 style={[STYLES.input, { minHeight: 60 }]}
@@ -275,56 +316,14 @@ export default function Reg4({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  screen: { 
-    flex: 1, 
-    backgroundColor: COLORS.bg,
-  },
-  fieldGroup: {
-    marginBottom: 16,
-  },
-  section: {
-    marginBottom: 20,
-  },
-  radioGroup: {
-    marginTop: 8,
-  },
-  radioRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  radio: {
-    width: 20,
-    height: 20,
-    borderWidth: 2,
-    borderColor: COLORS.border,
-    borderRadius: 10,
-    marginRight: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: COLORS.white,
-  },
-  radioSelected: {
-    borderColor: COLORS.primary,
-  },
-  radioDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: COLORS.primary,
-  },
-  radioLabel: {
-    fontSize: 14,
-    color: COLORS.textDark,
-    fontFamily: 'Poppins',
-  },
-  conditionGrid: {
+  // Unified Pill System - Same as CONDITIONS styling
+  pillGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 10,
     marginTop: 8,
   },
-  conditionPill: {
+  pill: {
     borderWidth: 1,
     borderColor: COLORS.primary,
     borderRadius: 12,
@@ -332,20 +331,23 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     backgroundColor: COLORS.white,
     marginBottom: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  conditionPillSelected: {
+  pillSelected: {
     backgroundColor: COLORS.primary,
     borderColor: COLORS.primary,
   },
-  conditionText: {
+  pillText: {
     fontSize: 12,
     color: COLORS.primary,
     fontWeight: '500',
     fontFamily: 'Poppins',
   },
-  conditionTextSelected: {
+  pillTextSelected: {
     color: COLORS.white,
   },
+  // Checkbox
   checkboxRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -380,6 +382,7 @@ const styles = StyleSheet.create({
     flex: 1,
     lineHeight: 18,
   },
+  // Bottom Navigation
   bottomBar: {
     flexDirection: 'row',
     padding: 16,
