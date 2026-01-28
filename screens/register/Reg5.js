@@ -6,6 +6,7 @@ import {
   Text, TextInput, TouchableOpacity,
   View
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import NairaLogo from '../../components/NairaLogo';
 import ProgressHeader from '../../components/ProgressHeader';
 import { COLORS, FONTS, STYLES } from '../../themes/regTheme';
@@ -14,6 +15,9 @@ export default function Reg5({ navigation }) {
   const [pin, setPin] = useState(['', '', '', '', '']);
   const [biometricEnabled, setBiometricEnabled] = useState(false);
   const [sosContactAdded, setSosContactAdded] = useState(false);
+
+  // Safe area insets
+  const insets = useSafeAreaInsets();
 
   // Create refs for PIN inputs
   const pinRefs = useRef([]);
@@ -43,7 +47,7 @@ export default function Reg5({ navigation }) {
   const isFormComplete = isPinComplete;
 
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen} edges={["top", "left", "right"]}>
       <ProgressHeader current={5} total={6} />
       <NairaLogo />
 
@@ -60,7 +64,7 @@ export default function Reg5({ navigation }) {
         <ScrollView 
           contentContainerStyle={{ flexGrow: 1 }}
           scrollEnabled={true}>
-          <View style={STYLES.container}>
+          <View style={styles.container}>
 
             {/* ---- Create PIN ---- */}
             <View style={styles.section}>
@@ -126,7 +130,7 @@ export default function Reg5({ navigation }) {
       </KeyboardAvoidingView>
 
       {/* ---- Bottom Buttons ---- */}
-      <View style={styles.bottomBar}>
+      <View style={[styles.bottomBar, { paddingBottom: insets.bottom || 16 }]}> 
         <TouchableOpacity
           style={styles.prevBtn}
           onPress={() => navigation.goBack()}>
@@ -140,7 +144,7 @@ export default function Reg5({ navigation }) {
           <Text style={styles.nextBtnText}>Next</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -152,6 +156,7 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 24,
   },
+  container: { flex: 1, backgroundColor: COLORS.bg, justifyContent: 'center', alignItems: 'stretch', paddingHorizontal: 24, paddingTop: 40 },
   pinContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',

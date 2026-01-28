@@ -6,6 +6,7 @@ import {
   Text, TextInput, TouchableOpacity,
   View
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import NairaLogo from '../../components/NairaLogo';
 import ProgressHeader from '../../components/ProgressHeader';
 import { COLORS, FONTS, SCREEN_STYLES, STYLES } from '../../themes/regTheme';
@@ -14,6 +15,9 @@ export default function Reg1_Phone({ navigation }) {
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [sendViaSMS, setSendViaSMS] = useState(true);
+
+  // Get safe area insets
+  const insets = useSafeAreaInsets();
 
   // Create refs for OTP inputs
   const otpRefs = useRef([]);
@@ -143,7 +147,7 @@ export default function Reg1_Phone({ navigation }) {
       </KeyboardAvoidingView>
 
       {/* ---- Bottom Next Button ---- */}
-      <View style={styles.bottomBar}>
+      <View style={[styles.bottomBar, { paddingBottom: insets.bottom || 16 }]}> 
         <TouchableOpacity
           style={[styles.nextBtn, !isFormComplete && styles.nextBtnDisabled]}
           disabled={!isFormComplete}

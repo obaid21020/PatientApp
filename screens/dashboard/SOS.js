@@ -388,19 +388,13 @@ export default function SOS() {
                   <View style={styles.contactActions}>
                     <TouchableOpacity
                       style={styles.contactActionButton}
-                      onPress={() => handleCallEmergency(contact.phone)}
-                    >
-                      <Ionicons name="call" size={18} color="#2E7D32" />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.contactActionButton}
                       onPress={() => handleEditContact(index)}
                     >
-                      <Ionicons name="pencil" size={18} color="#1976D2" />
+                      <Ionicons name="create-outline" size={18} color="#1976D2" />
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.contactActionButton}
-                      onPress={() => handleDeleteContact(index)}
+                      onPress={() => handleDeleteContact(index) }
                     >
                       <Ionicons name="trash" size={18} color="#C62828" />
                     </TouchableOpacity>

@@ -38,7 +38,7 @@ export const LAYOUT_STYLES = StyleSheet.create({
 
 /* reusable component styles */
 export const STYLES = StyleSheet.create({
-  container: { flexGrow: 1, backgroundColor: COLORS.bg, justifyContent: 'flex-start', alignItems: 'stretch', paddingHorizontal: 24, paddingTop: 40 },
+  container: { flex: 1, backgroundColor: COLORS.bg, justifyContent: 'flex-start', alignItems: 'stretch', paddingHorizontal: 24, paddingTop: 40 },
   card:      { backgroundColor: COLORS.cardBg, borderRadius: 12, padding: 24, elevation: 0 }, // flat white card
   label:     { fontSize: 14, fontWeight: '500', color: COLORS.textDark, marginBottom: 8, fontFamily: 'Poppins' },
   inputWrap: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: COLORS.border, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10, marginBottom: 8 },

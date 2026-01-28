@@ -1,25 +1,26 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   Dimensions,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import NairaLogo from '../../components/NairaLogo';
+import DashboardHeader from '../../components/DashboardHeader';
 import { COLORS, FONTS } from '../../themes/regTheme';
 
 const { width } = Dimensions.get('window');
 
-export default function Dashboard() {
+function Dashboard() {
   const navigation = useNavigation();
-  const [greeting] = useState('Good afternoon, John!');
-
+  const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false);
+  const scrollY = useRef(0);
+  const userName = 'John'; // Replace with actual user name if available
+  const isPro = true; // Replace with actual pro status if available
 
   const healthMetrics = [
     { id: 1, title: 'Health Score', value: '85%', icon: 'heart-outline', color: '#FF6B6B' },
@@ -64,42 +65,69 @@ export default function Dashboard() {
     },
   ];
 
+  // Handler for scroll event
+  const handleScroll = (event) => {
+    const y = event.nativeEvent.contentOffset.y;
+    scrollY.current = y;
+    if (y > 30 && !isHeaderCollapsed) {
+      setIsHeaderCollapsed(true);
+    } else if (y <= 30 && isHeaderCollapsed) {
+      setIsHeaderCollapsed(false);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      {/* Sticky Header */}
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.notificationIcon} onPress={() => navigation.navigate('Notifications')}>
-            <Ionicons name="notifications-outline" size={24} color={COLORS.primary} />
-            <View style={styles.notificationBadge} />
-          </TouchableOpacity>
-        <View style={styles.headerCenter}>
-          <NairaLogo size={25} />
-        </View>
-        <View style={styles.headerRight}>
-          
-          <TouchableOpacity onPress={() => navigation.navigate('QuickProfile')}>
-            <Image
-            source={{ uri: 'https://via.placeholder.com/40' }}
-            style={styles.profileImage}
-          />
-          </TouchableOpacity>
-        </View>
-      </View>
+      {/* Sticky Dashboard Header */}
+      <DashboardHeader
+        profileImageUrl={'https://via.placeholder.com/40'}
+        healthScore="85%"
+        userName={userName}
+        isPro={isPro}
+        isCollapsed={isHeaderCollapsed}
+      />
 
       <ScrollView
         style={styles.content}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 80 }}
+        scrollEventThrottle={16}
+        onScroll={handleScroll}
       >
-        {/* Greeting Section */}
-        <View style={styles.greetingSection}>
-          <Text style={styles.greetingText}>{greeting}</Text>
-          <Text style={styles.greetingSubtext}>How are you feeling today?</Text>
-        </View>
 
         {/* Quick Action Buttons */}
-
-
+        <View style={styles.quickActionsContainer}>
+          <View style={styles.quickActionGrid}>
+            {/* Refill */}
+            <View style={styles.quickActionButton}>
+              <View style={[styles.actionIcon, { backgroundColor: '#E0F2FE' }]}> 
+                <Ionicons name="repeat" size={28} color="#0F766E" />
+              </View>
+              <Text style={styles.actionTitle}>Refill</Text>
+            </View>
+            {/* Talk to a Doctor Now */}
+            <View style={styles.quickActionButton}>
+              <View style={[styles.actionIcon, { backgroundColor: '#F3E8FF' }]}> 
+                <Ionicons name="chatbubbles" size={28} color="#7C3AED" />
+              </View>
+              <Text style={styles.actionTitle}>Talk to a Doctor Now</Text>
+            </View>
+            {/* Book a Lab Test */}
+            <View style={styles.quickActionButton}>
+              <View style={[styles.actionIcon, { backgroundColor: '#FEF9C3' }]}> 
+                <Ionicons name="flask" size={28} color="#EAB308" />
+              </View>
+              <Text style={styles.actionTitle}>Book a Lab Test</Text>
+            </View>
+            {/* Get Medication */}
+            <View style={styles.quickActionButton}>
+              <View style={[styles.actionIcon, { backgroundColor: '#DCFCE7' }]}> 
+                <Ionicons name="medkit" size={28} color="#22C55E" />
+              </View>
+              <Text style={styles.actionTitle}>Get Medication</Text>
+            </View>
+          </View>
+        </View>
         {/* Health Metrics Section */}
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Health Metrics</Text>
@@ -178,6 +206,8 @@ export default function Dashboard() {
   );
 }
 
+export default Dashboard;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -249,24 +279,19 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.Poppins,
   },
   quickActionsContainer: {
+    marginTop: 16,  
     marginBottom: 24,
   },
   quickActionGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'space-between',
     gap: 12,
   },
   quickActionButton: {
-    width: '48%',
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 16,
+    width: '18%',
     alignItems: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
+    marginBottom: 8,
   },
   actionIcon: {
     width: 56,
@@ -274,14 +299,20 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 6,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
   },
   actionTitle: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '600',
     color: '#1A1A1A',
     fontFamily: FONTS.Poppins,
     textAlign: 'center',
+    marginTop: 2,
   },
   sectionContainer: {
     marginBottom: 24,
